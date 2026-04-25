@@ -27,18 +27,42 @@ jobs:
       - name: Build Application with Maven
         run: mvn clean package -DskipTests
 
+      - name: Generate Runtime Image with jlink
+        run: mvn javafx:jlink
+
+      - name: Package Application with jpackage
+        run: |
+          jpackage --type app-image `
+            --name TimerApp `
+            --module com.dpzstudio.timer/com.dpzstudio.timer.App `
+            --runtime-image target/TimerApp `
+            --dest target/dist
+
       - name: Generate Dynamic Release Tag
         run: |
-          echo "TAG_NAME=v1.0.0-dev.${{ github.run_number }}" >> $env:GITHUB_ENV
+          $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+          echo "TAG_NAME=dev-$timestamp" >> $env:GITHUB_ENV
+          echo "RELEASE_NAME=Development Build - $timestamp" >> $env:GITHUB_ENV
 
-      - name: Create GitHub Release & Upload Asset
+      - name: Locate Generated Executable
+        id: find-exe
+        run: |
+          $exe = Get-ChildItem -Path "target/dist" -Name "*.exe" -Recurse | Select-Object -First 1
+          if ($exe) {
+            echo "exe_path=target/dist/$exe" >> $env:GITHUB_OUTPUT
+            echo "Found executable: $exe"
+          } else {
+            echo "Warning: No .exe file found in target/dist"
+            Get-ChildItem -Path "target/dist" -Recurse
+          }
+
+      - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG_NAME }}
-          name: Development Release ${{ env.TAG_NAME }}
+          name: ${{ env.RELEASE_NAME }}
           prerelease: true
           draft: false
           files: |
-            target/*.jar 
-            target/*.exe
-            target/*.zip
+            target/dist/TimerApp/**
+            target/*.jar
