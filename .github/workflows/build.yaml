@@ -38,23 +38,14 @@ jobs:
             --runtime-image target/TimerApp `
             --dest target/dist
 
+      - name: Zip Portable Distribution
+        run: Compress-Archive -Path target/dist/TimerApp -DestinationPath TimerApp-Portable.zip
+
       - name: Generate Dynamic Release Tag
         run: |
           $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
           echo "TAG_NAME=dev-$timestamp" >> $env:GITHUB_ENV
           echo "RELEASE_NAME=Development Build - $timestamp" >> $env:GITHUB_ENV
-
-      - name: Locate Generated Executable
-        id: find-exe
-        run: |
-          $exe = Get-ChildItem -Path "target/dist" -Name "*.exe" -Recurse | Select-Object -First 1
-          if ($exe) {
-            echo "exe_path=target/dist/$exe" >> $env:GITHUB_OUTPUT
-            echo "Found executable: $exe"
-          } else {
-            echo "Warning: No .exe file found in target/dist"
-            Get-ChildItem -Path "target/dist" -Recurse
-          }
 
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v2
@@ -63,6 +54,4 @@ jobs:
           name: ${{ env.RELEASE_NAME }}
           prerelease: true
           draft: false
-          files: |
-            target/dist/TimerApp/**
-            target/*.jar
+          files: TimerApp-Portable.zip
