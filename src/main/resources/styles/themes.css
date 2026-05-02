@@ -1,0 +1,41 @@
+.root {
+  -primary-dark: #2b2b2b;
+  -border-dark: #666666;
+  -accent: #007bff;
+}
+
+/* LAYOUT */
+.stack-pane,
+.main,
+.root {
+  -fx-background-color: -primary-dark;
+}
+
+/* BASIC WIDGET */
+.label {
+  -fx-text-fill: #ffffff;
+}
+
+.button {
+  -fx-background-color: #4a4a4a;
+  -fx-text-fill: #ffffff;
+  -fx-border-color: #666666;
+  -fx-border-width: 1px;
+  -fx-border-radius: 5px;
+  -fx-background-radius: 5px;
+}
+
+.button:hover {
+  -fx-background-color: #5a5a5a;
+}
+
+.button:disabled {
+  -fx-background-color: #2a2a2a;
+  -fx-text-fill: #888888;
+}
+
+.btn-active {
+  -fx-background-color: #007bff;
+  -fx-text-fill: #ffffff;
+  -fx-border-color: #0056b3;
+}

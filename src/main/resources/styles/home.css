@@ -2,10 +2,6 @@
  * Dark Mode Theme for Simple Timer App
  */
 
-.main {
-  -fx-background-color: #2b2b2b;
-}
-
 .wrapperInput {
   -fx-background-color: #3c3c3c;
   -fx-padding: 10px;
@@ -15,34 +11,6 @@
 .wrapperProgress {
   -fx-background-color: #2b2b2b;
   -fx-padding: 20px;
-}
-
-.btnAction {
-  -fx-background-color: #4a4a4a;
-  -fx-text-fill: #ffffff;
-  -fx-border-color: #666666;
-  -fx-border-width: 1px;
-  -fx-border-radius: 5px;
-  -fx-background-radius: 5px;
-}
-
-.btnAction:hover {
-  -fx-background-color: #5a5a5a;
-}
-
-.btnAction:pressed {
-  -fx-background-color: #3a3a3a;
-}
-
-.btnAction:disabled {
-  -fx-background-color: #2a2a2a;
-  -fx-text-fill: #888888;
-}
-
-.btnActive {
-  -fx-background-color: #007bff;
-  -fx-text-fill: #ffffff;
-  -fx-border-color: #0056b3;
 }
 
 .text-field {
@@ -56,10 +24,6 @@
 
 .text-field:focused {
   -fx-border-color: #888888;
-}
-
-.label {
-  -fx-text-fill: #ffffff;
 }
 
 .progress-bar {

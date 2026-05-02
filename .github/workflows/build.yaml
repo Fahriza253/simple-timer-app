@@ -1,10 +1,9 @@
-name: Build
+name: Build and Release
 
 on:
   push:
     branches:
       - dev
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -24,6 +23,15 @@ jobs:
           distribution: "temurin"
           cache: maven
 
+      - name: Extract Project Version
+        id: get_version
+        shell: bash
+        run: |
+          # Extract version from pom.xml using a simple grep/sed or mvn command
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Build Application with Maven
         run: mvn clean package -DskipTests
 
@@ -34,24 +42,20 @@ jobs:
         run: |
           jpackage --type app-image `
             --name TimerApp `
+            --app-version "${{ env.APP_VERSION }}" `
             --module com.dpzstudio.timer/com.dpzstudio.timer.App `
             --runtime-image target/TimerApp `
             --dest target/dist
 
       - name: Zip Portable Distribution
-        run: Compress-Archive -Path target/dist/TimerApp -DestinationPath TimerApp-Portable.zip
-
-      - name: Generate Dynamic Release Tag
         run: |
-          $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-          echo "TAG_NAME=dev-$timestamp" >> $env:GITHUB_ENV
-          echo "RELEASE_NAME=Development Build - $timestamp" >> $env:GITHUB_ENV
+          Compress-Archive -Path target/dist/TimerApp -DestinationPath "app-portable-${{ env.APP_VERSION }}.zip"
 
-      - name: Create GitHub Release & Upload Assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          name: ${{ env.RELEASE_NAME }}
+          tag_name: v${{ env.APP_VERSION }}
+          name: Release v${{ env.APP_VERSION }}
           prerelease: true
           draft: false
-          files: TimerApp-Portable.zip
+          files: app-portable-${{ env.APP_VERSION }}.zip
