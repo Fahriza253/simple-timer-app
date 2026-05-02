@@ -55,6 +55,4 @@ public class SettingController implements Initializable {
             config.setLongBreakInterval(newVal);
         });
     }
-
-
 }

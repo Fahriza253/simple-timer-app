@@ -48,13 +48,6 @@ public class HomeController implements Initializable {
     private final LongBreak longBreak   = new LongBreak();
     private final PomodoroService progressTracker = new PomodoroService();
 
-    private PomodoroMode currentMode;
-    private final Pomodoro pomodoro = new Pomodoro();
-    private final ShortBreak shortBreak = new ShortBreak();
-    private final LongBreak longBreak = new LongBreak();
-
-    private Button activeModeButton;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureNumericTextField();
@@ -244,64 +237,5 @@ public class HomeController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    private void switchMode(PomodoroMode mode) {
-        boolean isRunning = timer != null && timer.getStatus() == Animation.Status.RUNNING;
-
-        if (isRunning) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Switch Mode");
-            alert.setHeaderText("Timer is currently running.");
-            alert.setContentText("Switching mode will reset the timer. Do you want to continue?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isEmpty() || result.get() != ButtonType.OK) {
-                return;
-            }
-        }
-
-        Button newActiveButton;
-        if (mode instanceof Pomodoro) {
-            newActiveButton = btnPomodorMode;
-        } else if (mode instanceof ShortBreak) {
-            newActiveButton = btnShortBreakMode;
-        } else if (mode instanceof LongBreak) {
-            newActiveButton = btnLongBreakMode;
-        } else {
-            return;
-        }
-
-        currentMode = mode;
-        activeModeButton = newActiveButton;
-
-        if (timer != null) {
-            timer.stop();
-        }
-
-        totalSeconds = 0;
-        remainingSeconds = 0;
-        labelSecond.setText("00");
-        labelMinute.setText("00");
-        labelHour.setText("00");
-        progressBar.setProgress(0);
-        setButtonState(true, false, false);
-
-        setModeInputs();
-        updateActiveModeButton();
-    }
-
-    private void setModeInputs() {
-        inputHour.setText(String.valueOf(currentMode.getDefaultHours()));
-        inputMinute.setText(String.valueOf(currentMode.getDefaultMinutes()));
-        inputSecond.setText(String.valueOf(currentMode.getDefaultSeconds()));
-    }
-
-    private void updateActiveModeButton() {
-        btnPomodorMode.getStyleClass().remove("btnActive");
-        btnShortBreakMode.getStyleClass().remove("btnActive");
-        btnLongBreakMode.getStyleClass().remove("btnActive");
-
-        activeModeButton.getStyleClass().add("btnActive");
     }
 }
