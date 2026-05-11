@@ -1,5 +1,8 @@
 package com.dpzstudio.timer;
 
+import com.dpzstudio.timer.util.DatabaseInitializer;
+import java.io.IOException;
+import java.io.InputStream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,15 +10,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class App extends Application {
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
+        DatabaseInitializer.init();
+
         scene = new Scene(loadFXML("/views/Home"), 400, 500);
         scene.getStylesheets().add(getClass().getResource("/styles/themes.css").toExternalForm());
         scene.getStylesheets().add(getClass().getResource("/styles/home.css").toExternalForm());

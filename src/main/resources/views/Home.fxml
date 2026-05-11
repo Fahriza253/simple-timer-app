@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,30 +11,30 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<StackPane id="mainContainer" alignment="TOP_CENTER" maxHeight="700.0" maxWidth="500.0"
-    minHeight="600.0" minWidth="400.0" prefHeight="520.0" prefWidth="420.0" styleClass="main"
-    stylesheets="@../styles/home.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.dpzstudio.timer.controller.HomeController">
+<StackPane id="mainContainer" alignment="TOP_CENTER" maxHeight="700.0" maxWidth="500.0" minHeight="600.0" minWidth="400.0" prefHeight="520.0" prefWidth="420.0" styleClass="main" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dpzstudio.timer.controller.HomeController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main" StackPane.alignment="TOP_CENTER">
          <children>
-            <HBox id="wrapperTopHeaderMenu" alignment="CENTER_RIGHT" maxHeight="50.0" maxWidth="720.0" minWidth="40.0" prefWidth="50.0">
+            <HBox id="wrapperTopHeaderMenu" alignment="CENTER_RIGHT" maxHeight="50.0" maxWidth="720.0" minWidth="40.0" prefWidth="50.0" VBox.vgrow="NEVER">
                <children>
-                  <HBox alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="60.0" minHeight="40.0" minWidth="120.0" styleClass="wrapperHeaderInput" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="40.0" minHeight="40.0" minWidth="40.0" styleClass="wrapperHeaderInput" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="btnSetting" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btnAction" text="Setting" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Button fx:id="btnSetting" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" stylesheets="@../styles/themes.css" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="btnAction" />
+                              <String fx:value="btn-setting" />
+                           </styleClass>
                         </Button>
                      </children>
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding>
                   </HBox>
                </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
             </HBox>
             <HBox id="wrapperModeSelection" alignment="CENTER" maxHeight="70.0" maxWidth="720.0" VBox.vgrow="ALWAYS">
                <children>
@@ -76,37 +78,40 @@
             </HBox>
             <HBox alignment="CENTER" maxHeight="100.0" maxWidth="720.0" minHeight="100.0" styleClass="wrapperInput" VBox.vgrow="NEVER">
                <children>
-                  <VBox alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="inputHour" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="inputHour" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial" size="24.0" />
                            </font>
                         </TextField>
+                        <Label text="hr" textFill="#00000080" />
                      </children>
                      <padding>
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="inputMinute" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="inputMinute" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial" size="24.0" />
                            </font>
                         </TextField>
+                        <Label text="min" textFill="#00000080" />
                      </children>
                      <padding>
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="80.0" prefHeight="60.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="inputSecond" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="inputSecond" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Arial" size="24.0" />
                            </font>
                         </TextField>
+                        <Label text="sec" textFill="#00000080" />
                      </children>
                      <padding>
                         <Insets left="5.0" right="5.0" />
@@ -148,14 +153,14 @@
                            </children>
                         </HBox>
                         <ProgressBar fx:id="progressBar" maxHeight="80.0" maxWidth="1.7976931348623157E308" minWidth="60.0" progress="0.0" />
-                        <Text fx:id="labelProgressCounter" fill="#ffffffbf" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="CENTER">
+                        <Label fx:id="labelTodayStats" text="Today: 0 success, 0 failed" textFill="#ffffffbf">
                            <font>
-                              <Font name="Arial" size="14.0" />
+                              <Font name="Arial" size="12.0" />
                            </font>
                            <VBox.margin>
-                              <Insets top="10.0" />
+                              <Insets top="5.0" />
                            </VBox.margin>
-                        </Text>
+                        </Label>
                      </children>
                   </VBox>
                </children>
@@ -206,5 +211,9 @@
          </padding>
       </VBox>
    </children>
+   <stylesheets>
+      <URL value="@../styles/home.css" />
+      <URL value="@../styles/themes.css" />
+   </stylesheets>
 
 </StackPane>

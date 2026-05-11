@@ -4,14 +4,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Optional;
 import java.io.IOException;
+import com.dpzstudio.timer.model.AppConfig;
 import com.dpzstudio.timer.model.LongBreak;
 import com.dpzstudio.timer.model.Pomodoro;
 import com.dpzstudio.timer.model.PomodoroMode;
 import com.dpzstudio.timer.model.ShortBreak;
+import com.dpzstudio.timer.model.Statistic;
+import com.dpzstudio.timer.service.AppConfigService;
 import com.dpzstudio.timer.service.AudioPlayer;
+import com.dpzstudio.timer.service.PomodoroService;
+import com.dpzstudio.timer.service.StatisticService;
 import com.dpzstudio.timer.service.TimerEngine;
 import com.dpzstudio.timer.util.TimeFormatter;
-import com.dpzstudio.timer.service.PomodoroService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +25,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -31,30 +34,40 @@ public class HomeController implements Initializable {
 
     @FXML private TextField inputSecond, inputMinute, inputHour;
     @FXML private Label labelSecond, labelMinute, labelHour;
-    @FXML private Text labelProgressCounter;
     @FXML private Button btnStart, btnPause, btnReset;
     @FXML private Button btnPomodoroMode, btnShortBreakMode, btnLongBreakMode;
     @FXML private Button btnSetting;
     @FXML private ProgressBar progressBar;
+    @FXML private Label labelTodayStats;
 
     private Button activeModeButton;
 
     private final TimerEngine engine = new TimerEngine();
     private AudioPlayer audioPlayer;
 
+    private final AppConfigService configService = new AppConfigService();
+    private AppConfig appConfig;
+
     private PomodoroMode currentMode;
-    private final Pomodoro pomodoro     = new Pomodoro();
-    private final ShortBreak shortBreak = new ShortBreak();
-    private final LongBreak longBreak   = new LongBreak();
+    private Pomodoro pomodoro;
+    private ShortBreak shortBreak;
+    private LongBreak longBreak;
     private final PomodoroService progressTracker = new PomodoroService();
+    private final StatisticService statisticService = new StatisticService();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configureNumericTextField();
         initService();
 
+        appConfig = configService.loadCfg();
+        pomodoro = new Pomodoro(appConfig.getPomodoroMinute());
+        shortBreak = new ShortBreak(appConfig.getShortBreakMinute());
+        longBreak = new LongBreak(appConfig.getLongBreakMinute());
+
         applyMode(pomodoro);
 
+        updateTodayStats();
         btnSetting.setOnAction(e -> openSettingMenu());
         btnStart.setOnAction(e -> startTimer());
         btnPause.setOnAction(e -> pauseTimer());
@@ -78,40 +91,56 @@ public class HomeController implements Initializable {
     }
 
     private void startTimer() {
-        if (!engine.isRunning()) {
-            int total   = calculateTotalSecondFromInput();
-
-            if (total < 1) {
-                showWarning("Duration Incorrect!");
-                return;
-            }
-
-            if (engine.getRemainingSecond() == 0 || engine.getRemainingSecond() == engine.getTotalSecond()) {
-                engine.setDuration(total);
-            }
+        if (engine.isRunning()) {
+            return;
         }
 
+        if (engine.isPaused()) {
+            return;
+        }
+
+        int total = calculateTotalSecondFromInput();
+        if (total < 1) {
+            showWarning("Duration Incorrect!");
+            return;
+        }
+
+        engine.setDuration(total);
         engine.start();
+        btnPause.setText("Pause");
         setButtonState(false, true, true);
     }
 
     private void pauseTimer() {
-        engine.pause();
-        setButtonState(true, false, false);
+        if (engine.isRunning()) {
+            engine.pause();
+            btnPause.setText("Continue");
+            setButtonState(false, true, true);
+        } else if (engine.isPaused()) {
+            engine.start();
+            btnPause.setText("Pause");
+            setButtonState(false, true, true);
+        }
     }
 
     private void resetTimer() {
+        if (engine.isRunning() || engine.isPaused()) {
+            statisticService.recordFailedSession();
+            updateTodayStats();
+        }
         engine.hardReset();
         clearTimeDisplay();
         updateDisplay();
+        btnPause.setText("Pause");
         setButtonState(true, false, false);
     }
 
     private void handleTimerFinished() {
         audioPlayer.play();
+        statisticService.recordSuccessfulSession();
+        updateTodayStats();
 
         PomodoroMode next = progressTracker.determineNextMode(currentMode);
-        labelProgressCounter.setText("Completed Pomodoros: " + progressTracker.getSessionCount());
 
         applyMode(next);
 
@@ -159,6 +188,8 @@ public class HomeController implements Initializable {
             settingStage.setResizable(false);
 
             settingStage.showAndWait();
+
+            appConfig = configService.loadCfg();
             if (!engine.isRunning() && currentMode != null) applyMode(currentMode);
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,10 +210,10 @@ public class HomeController implements Initializable {
     }
 
     private void switchMode(PomodoroMode mode) {
-        if (engine.isRunning()) {
+        if (engine.isRunning() || engine.isPaused()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Switch Mode");
-            alert.setHeaderText("Timer is currently running.");
+            alert.setHeaderText("Timer is currently active.");
             alert.setContentText("Switching mode will reset the timer. Do you want to continue?");
 
             Optional<ButtonType> result = alert.showAndWait();
@@ -219,9 +250,17 @@ public class HomeController implements Initializable {
     }
 
     private void setModeInputs() {
-        inputHour.setText(String.valueOf(currentMode.getDefaultHours()));
-        inputMinute.setText(String.valueOf(currentMode.getDefaultMinutes()));
-        inputSecond.setText(String.valueOf(currentMode.getDefaultSeconds()));
+        int minute = 0;
+        if (currentMode instanceof Pomodoro) {
+            minute = appConfig.getPomodoroMinute();
+        } else if (currentMode instanceof ShortBreak) {
+            minute = appConfig.getShortBreakMinute();
+        } else if (currentMode instanceof LongBreak) {
+            minute = appConfig.getLongBreakMinute();
+        }
+        inputHour.setText("0");
+        inputMinute.setText(String.valueOf(minute));
+        inputSecond.setText("0");
     }
 
     private void updateActiveModeButton() {
@@ -230,6 +269,11 @@ public class HomeController implements Initializable {
         btnLongBreakMode.getStyleClass().remove("btn-active");
 
         if (activeModeButton != null) activeModeButton.getStyleClass().add("btn-active");
+    }
+
+    private void updateTodayStats() {
+        Statistic today = statisticService.getTodayStatistic();
+        labelTodayStats.setText("Today: " + today.getSuccessfulSessions() + " success, " + today.getFailedSessions() + " failed");
     }
 
     private void showWarning(String message) {

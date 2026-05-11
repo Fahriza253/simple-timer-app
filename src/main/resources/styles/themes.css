@@ -1,7 +1,17 @@
 .root {
+  -white: #ecf0f1;
+
   -primary-dark: #2b2b2b;
   -border-dark: #666666;
-  -accent: #007bff;
+
+  -accent: #3498db;
+  -accent-darken: #2980b9;
+  -accent-border: #1f6391;
+
+  -warn: #e74c3c;
+  -warn-darken: #c0392b;
+
+  -transparent: rgba(0, 0, 0, 0);
 }
 
 /* LAYOUT */
@@ -13,12 +23,12 @@
 
 /* BASIC WIDGET */
 .label {
-  -fx-text-fill: #ffffff;
+  -fx-text-fill: -white;
 }
 
 .button {
   -fx-background-color: #4a4a4a;
-  -fx-text-fill: #ffffff;
+  -fx-text-fill: -white;
   -fx-border-color: #666666;
   -fx-border-width: 1px;
   -fx-border-radius: 5px;
@@ -35,7 +45,29 @@
 }
 
 .btn-active {
-  -fx-background-color: #007bff;
-  -fx-text-fill: #ffffff;
-  -fx-border-color: #0056b3;
+  -fx-background-color: -accent;
+  -fx-text-fill: -white;
+  -fx-border-color: -transparent;
+}
+
+.btn-active:hover {
+  -fx-background-color: -accent-darken;
+  -fx-text-fill: -white;
+  -fx-border-color: -transparent;
+}
+
+.btn-setting {
+  -fx-graphic: url("../icons/setting_icon.png");
+}
+
+.btn-warn {
+  -fx-background-color: -warn;
+  -fx-text-fill: -white;
+  -fx-border-color: rgba(255, 255, 255, 0);
+}
+
+.btn-warn:hover {
+  -fx-background-color: -warn-darken;
+  -fx-text-fill: -white;
+  -fx-border-color: rgba(255, 255, 255, 0);
 }
