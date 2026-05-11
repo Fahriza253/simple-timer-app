@@ -3,6 +3,7 @@ package com.dpzstudio.timer.util;
 import javafx.scene.control.TextFormatter;
 
 public class TimeFormatter {
+
     public static TextFormatter<String> createTimeFormatter(int maxValue) {
         return new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
@@ -36,4 +37,5 @@ public class TimeFormatter {
     public static String formatTwoDigit(int val) {
         return String.format("%02d", val);
     }
+
 }

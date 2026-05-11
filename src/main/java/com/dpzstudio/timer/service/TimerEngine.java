@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public class TimerEngine {
+
     private Timeline timeline;
     private int totalSecond;
     private int remainingSecond;
@@ -73,4 +74,9 @@ public class TimerEngine {
     public boolean isRunning() {
         return timeline != null && timeline.getStatus() == Animation.Status.RUNNING;
     }
+
+    public boolean isPaused() {
+        return timeline != null && timeline.getStatus() == Animation.Status.PAUSED;
+    }
+
 }

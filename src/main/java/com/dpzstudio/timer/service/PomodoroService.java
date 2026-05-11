@@ -7,27 +7,27 @@ import com.dpzstudio.timer.model.PomodoroMode;
 import com.dpzstudio.timer.model.ShortBreak;
 
 public class PomodoroService {
+
     private int sessionCount = 0;
 
-    private final AppConfig config = AppConfig.getInstance();
-
-    private final Pomodoro pomodoro = new Pomodoro();
-    private final ShortBreak shortBreak = new ShortBreak();
-    private final LongBreak longBreak = new LongBreak();
+    private final AppConfigService configService = new AppConfigService();
 
     public PomodoroMode determineNextMode(PomodoroMode current) {
+        AppConfig config = configService.loadCfg();
+
         if (current instanceof Pomodoro) {
             sessionCount++;
-
             if (sessionCount % config.getLongBreakInterval() == 0) {
-                return longBreak;
+                return new LongBreak(config.getLongBreakMinute());
             }
-            return shortBreak;
+            return new ShortBreak(config.getShortBreakMinute());
         }
-        return pomodoro;
+
+        return new Pomodoro(config.getPomodoroMinute());
     }
 
     public boolean shouldAutoStart(PomodoroMode next) {
+        AppConfig config = configService.loadCfg();
         if (next instanceof Pomodoro) {
             return config.isAutoStartPomodoro();
         }

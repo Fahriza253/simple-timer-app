@@ -4,6 +4,7 @@ import javafx.scene.media.AudioClip;
 import java.net.URL;
 
 public class AudioPlayer {
+
     private AudioClip audio;
 
     public AudioPlayer(String dir) {
@@ -18,4 +19,5 @@ public class AudioPlayer {
     public boolean isLoaded() {
         return audio != null;
     }
+
 }
