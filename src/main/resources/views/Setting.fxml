@@ -11,183 +11,229 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="500.0" maxWidth="700.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@../styles/setting.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dpzstudio.timer.controller.SettingController">
-
-   <children>
-      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="TOP_CENTER">
-         <children>
-            <HBox alignment="CENTER" maxHeight="60.0" prefHeight="100.0" prefWidth="200.0" styleClass="topHeaderWrapper" VBox.vgrow="ALWAYS">
-               <children>
-                  <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Setting">
-                     <font>
-                        <Font name="Arial Bold" size="18.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
-            <HBox id="longBreakContainer" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="">
-               <children>
-                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Timer">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
+<StackPane maxHeight="500.0" maxWidth="700.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0"
+    prefWidth="600.0" styleClass="root" xmlns="http://javafx.com/javafx/25"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.dpzstudio.timer.controller.SettingController">
+    <children>
+        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308"
+            maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0"
+            StackPane.alignment="TOP_CENTER">
+            <children>
+                <HBox alignment="CENTER" maxHeight="60.0" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="topHeaderWrapper" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                            strokeWidth="0.0" text="Setting">
+                            <font>
+                                <Font name="Arial Bold" size="18.0" />
+                            </font>
                         </Text>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                     <children>
-                        <Label text="Pomodoro" />
-                        <Spinner fx:id="spinnerDefaultPomodoro" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="35.0" VBox.vgrow="NEVER">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Spinner>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0">
-                     <children>
-                        <Label text="Short Break">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Label>
-                        <Spinner fx:id="spinnerDefaultShortBreak" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="35.0" VBox.vgrow="NEVER" />
-                     </children>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0">
-                     <children>
-                        <Label text="Long Break" />
-                        <Spinner fx:id="spinnerDefaultLongBreak" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="35.0" VBox.vgrow="NEVER" />
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </HBox>
-            <HBox id="autoStartPomoContainer" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="">
-               <children>
-                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto Start Pomodoro">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <children>
-                        <CheckBox fx:id="checkboxAutoStartPomo" alignment="CENTER" mnemonicParsing="false" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </CheckBox>
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </HBox>
-            <HBox id="autoStartBreakContainer" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="">
-               <children>
-                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto Start Break">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <children>
-                        <CheckBox fx:id="checkboxAutoStartBreak" alignment="CENTER" mnemonicParsing="false" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </CheckBox>
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </HBox>
-            <HBox id="longBreakContainer" alignment="CENTER" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="">
-               <children>
-                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Long Break Interval">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <children>
-                        <Spinner fx:id="spinnerLongBreakInterval" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="35.0" VBox.vgrow="NEVER" />
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-            </HBox>
-            <HBox id="longBreakContainer" alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="">
-               <padding>
-                  <Insets left="30.0" right="30.0" />
-               </padding>
-               <children>
-                  <VBox alignment="CENTER" maxHeight="40.0" maxWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Button id="btnCancel" fx:id="btnCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-warn" stylesheets="@../styles/themes.css" text="Cancel" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="3.0" right="3.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox alignment="CENTER" maxHeight="40.0" maxWidth="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Button id="btnSaveSetting" fx:id="btnSaveSetting" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="3.0" right="3.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-         <padding>
-            <Insets left="30.0" right="30.0" />
-         </padding>
-      </VBox>
-   </children>
+                    </children>
+                </HBox>
+                <HBox id="longBreakContainer" alignment="CENTER" maxHeight="60.0"
+                    maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                                    strokeWidth="0.0" text="Default Timer">
+                                    <font>
+                                        <Font name="Arial" size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0"
+                            HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                            <children>
+                                <Label text="Pomodoro" />
+                                <Spinner fx:id="spinnerDefaultPomodoro"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" minHeight="35.0"
+                                    VBox.vgrow="NEVER">
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </Spinner>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0">
+                            <children>
+                                <Label text="Short Break">
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                                </Label>
+                                <Spinner fx:id="spinnerDefaultShortBreak"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" minHeight="35.0"
+                                    VBox.vgrow="NEVER" />
+                            </children>
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="80.0">
+                            <children>
+                                <Label text="Long Break" />
+                                <Spinner fx:id="spinnerDefaultLongBreak"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" minHeight="35.0"
+                                    VBox.vgrow="NEVER" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets left="30.0" right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox id="autoStartPomoContainer" alignment="CENTER" maxHeight="60.0"
+                    maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                                    strokeWidth="0.0" text="Auto Start Pomodoro">
+                                    <font>
+                                        <Font name="Arial" size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0"
+                            HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                            <children>
+                                <CheckBox fx:id="checkboxAutoStartPomo" alignment="CENTER"
+                                    mnemonicParsing="false" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </CheckBox>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets left="30.0" right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox id="autoStartBreakContainer" alignment="CENTER" maxHeight="60.0"
+                    maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                                    strokeWidth="0.0" text="Auto Start Break">
+                                    <font>
+                                        <Font name="Arial" size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0"
+                            HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                            <children>
+                                <CheckBox fx:id="checkboxAutoStartBreak" alignment="CENTER"
+                                    mnemonicParsing="false" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </CheckBox>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets left="30.0" right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox id="longBreakContainer" alignment="CENTER" maxHeight="60.0"
+                    maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                                    strokeWidth="0.0" text="Long Break Interval">
+                                    <font>
+                                        <Font name="Arial" size="16.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="60.0"
+                            HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                            <children>
+                                <Spinner fx:id="spinnerLongBreakInterval"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" minHeight="35.0"
+                                    VBox.vgrow="NEVER" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets left="30.0" right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox id="longBreakContainer" alignment="BOTTOM_RIGHT" maxHeight="60.0"
+                    maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0"
+                    styleClass="">
+                    <padding>
+                        <Insets left="30.0" right="30.0" />
+                    </padding>
+                    <children>
+                        <VBox alignment="CENTER" maxHeight="40.0" maxWidth="100.0"
+                            HBox.hgrow="ALWAYS">
+                            <children>
+                                <Button id="btnCancel" fx:id="btnCancel"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                    styleClass="btn-cancel" text="Cancel" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0" />
+                            </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER" maxHeight="40.0" maxWidth="100.0"
+                            HBox.hgrow="ALWAYS">
+                            <children>
+                                <Button id="btnSaveSetting" fx:id="btnSaveSetting"
+                                    maxHeight="1.7976931348623157E308"
+                                    maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                                    styleClass="btn-save" text="Save" VBox.vgrow="ALWAYS">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                            <HBox.margin>
+                                <Insets left="3.0" right="3.0" />
+                            </HBox.margin>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets left="30.0" right="30.0" />
+            </padding>
+        </VBox>
+    </children>
 </StackPane>

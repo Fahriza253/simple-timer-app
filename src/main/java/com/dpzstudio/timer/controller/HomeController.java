@@ -4,18 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Optional;
 import java.io.IOException;
-import com.dpzstudio.timer.model.AppConfig;
-import com.dpzstudio.timer.model.LongBreak;
-import com.dpzstudio.timer.model.Pomodoro;
-import com.dpzstudio.timer.model.PomodoroMode;
-import com.dpzstudio.timer.model.ShortBreak;
-import com.dpzstudio.timer.model.Statistic;
-import com.dpzstudio.timer.service.AppConfigService;
-import com.dpzstudio.timer.service.AudioPlayer;
-import com.dpzstudio.timer.service.PomodoroService;
-import com.dpzstudio.timer.service.StatisticService;
-import com.dpzstudio.timer.service.TimerEngine;
-import com.dpzstudio.timer.util.TimeFormatter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -29,16 +17,29 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import com.dpzstudio.timer.model.AppConfig;
+import com.dpzstudio.timer.model.LongBreak;
+import com.dpzstudio.timer.model.Pomodoro;
+import com.dpzstudio.timer.model.PomodoroMode;
+import com.dpzstudio.timer.model.ShortBreak;
+import com.dpzstudio.timer.model.Statistic;
+import com.dpzstudio.timer.service.AppConfigService;
+import com.dpzstudio.timer.service.AudioPlayer;
+import com.dpzstudio.timer.service.PomodoroService;
+import com.dpzstudio.timer.service.StatisticService;
+import com.dpzstudio.timer.service.TagSelectionManager;
+import com.dpzstudio.timer.service.TimerEngine;
+import com.dpzstudio.timer.util.TimeFormatter;
 
 public class HomeController implements Initializable {
 
+    @FXML private Button btnSetting, btnTagsSetting;
     @FXML private TextField inputSecond, inputMinute, inputHour;
     @FXML private Label labelSecond, labelMinute, labelHour;
-    @FXML private Button btnStart, btnPause, btnReset;
     @FXML private Button btnPomodoroMode, btnShortBreakMode, btnLongBreakMode;
-    @FXML private Button btnSetting;
+    @FXML private Button btnStart, btnPause, btnReset;
     @FXML private ProgressBar progressBar;
-    @FXML private Label labelTodayStats;
+    @FXML private Label labelTodayStats, lbSelectedTag;
 
     private Button activeModeButton;
 
@@ -54,6 +55,7 @@ public class HomeController implements Initializable {
     private LongBreak longBreak;
     private final PomodoroService progressTracker = new PomodoroService();
     private final StatisticService statisticService = new StatisticService();
+    private final TagSelectionManager selectionManager = TagSelectionManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,6 +71,7 @@ public class HomeController implements Initializable {
 
         updateTodayStats();
         btnSetting.setOnAction(e -> openSettingMenu());
+        btnTagsSetting.setOnAction(e -> openTagsMenu());
         btnStart.setOnAction(e -> startTimer());
         btnPause.setOnAction(e -> pauseTimer());
         btnReset.setOnAction(e -> resetTimer());
@@ -76,6 +79,8 @@ public class HomeController implements Initializable {
         btnPomodoroMode.setOnAction(e -> switchMode(pomodoro));
         btnShortBreakMode.setOnAction(e -> switchMode(shortBreak));
         btnLongBreakMode.setOnAction(e -> switchMode(longBreak));
+
+        updateSelectedTagLabel();
     }
 
     private void configureNumericTextField() {
@@ -125,8 +130,7 @@ public class HomeController implements Initializable {
 
     private void resetTimer() {
         if (engine.isRunning() || engine.isPaused()) {
-            statisticService.recordFailedSession();
-            updateTodayStats();
+            recordSessionResult(false);
         }
         engine.hardReset();
         clearTimeDisplay();
@@ -137,8 +141,7 @@ public class HomeController implements Initializable {
 
     private void handleTimerFinished() {
         audioPlayer.play();
-        statisticService.recordSuccessfulSession();
-        updateTodayStats();
+        recordSessionResult(true);
 
         PomodoroMode next = progressTracker.determineNextMode(currentMode);
 
@@ -150,6 +153,15 @@ public class HomeController implements Initializable {
             updateDisplay();
             setButtonState(true, false, true);
         }
+    }
+
+    private void recordSessionResult(boolean success) {
+        if (currentMode == null) {
+            return;
+        }
+
+        statisticService.recordSession(currentMode, success);
+        updateTodayStats();
     }
 
     private void updateDisplay() {
@@ -171,13 +183,12 @@ public class HomeController implements Initializable {
     private void openSettingMenu() {
         try {
             FXMLLoader load = new FXMLLoader(
-                getClass().getResource("/views/Setting.fxml")
+                getClass().getResource("/views/setting.fxml")
             );
             Parent root = load.load();
 
             Scene settingScene = new Scene(root);
-            settingScene.getStylesheets().add(getClass().getResource("/styles/themes.css").toExternalForm());
-            settingScene.getStylesheets().add(getClass().getResource("/styles/setting.css").toExternalForm());
+            settingScene.getStylesheets().add(getClass().getResource("/styles/default-themes.css").toExternalForm());
 
             Stage settingStage = new Stage();
 
@@ -195,6 +206,32 @@ public class HomeController implements Initializable {
             e.printStackTrace();
             showWarning("Failed to load Setting menu");
         }
+    }
+
+    private void openTagsMenu() {
+        try {
+            FXMLLoader load = new FXMLLoader(getClass().getResource("/views/tags.fxml"));
+            Parent root = load.load();
+
+            Scene tagsScene = new Scene(root);
+            tagsScene.getStylesheets().add(getClass().getResource("/styles/default-themes.css").toExternalForm());
+
+            Stage tagsStage = new Stage();
+            tagsStage.setTitle("Tags Setting");
+            tagsStage.setScene(tagsScene);
+            tagsStage.initOwner(btnTagsSetting.getScene().getWindow());
+            tagsStage.initModality(Modality.APPLICATION_MODAL);
+            tagsStage.setResizable(false);
+            tagsStage.showAndWait();
+            updateSelectedTagLabel();
+        } catch (IOException e) {
+            showWarning("Failed to load Tags Setting ");
+        }
+    }
+
+    private void updateSelectedTagLabel() {
+        String selectedName = selectionManager.getSelectedTagName();
+        lbSelectedTag.setText(selectedName != null ? "Selected tag: " + selectedName : "Selected tag: none");
     }
 
     private Button getButtonForMode(PomodoroMode mode) {

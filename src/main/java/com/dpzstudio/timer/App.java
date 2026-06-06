@@ -18,9 +18,11 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         DatabaseInitializer.init();
 
-        scene = new Scene(loadFXML("/views/Home"), 400, 500);
-        scene.getStylesheets().add(getClass().getResource("/styles/themes.css").toExternalForm());
-        scene.getStylesheets().add(getClass().getResource("/styles/home.css").toExternalForm());
+        scene = new Scene(loadFXML("/views/home"), 400, 500);
+
+        // NOTE : Link CSS
+
+        scene.getStylesheets().add(getClass().getResource("/styles/default-themes.css").toExternalForm());
 
         InputStream icon = getClass().getResourceAsStream("/icons/app.png");
         if (icon != null) {

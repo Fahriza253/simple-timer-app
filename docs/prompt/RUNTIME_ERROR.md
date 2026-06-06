@@ -22,6 +22,10 @@ Constraint yang harus di jaga dalam implementasi adalah sebagai berikut :
 Jelaskan mengapa solusi tersebut baik dan analisis kekurangan dari implementasi itu sendiri!
 Kemudian buatkan implementasi kode berdasarkan rancangan yang dibuat secara lengkap!
 
-# Design
+# Fixing Error
 
-Ikuti design yang telah di buat sebagai berikut:
+Run this maven project and start to analysis any error found while running the app.
+
+After that, fix all error that are founded with the best and solid solution.
+
+Create a list note at the end that explain what the error was and what the solution are.
