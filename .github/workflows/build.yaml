@@ -27,7 +27,6 @@ jobs:
         id: get_version
         shell: bash
         run: |
-          # Extract version from pom.xml using a simple grep/sed or mvn command
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
@@ -39,23 +38,25 @@ jobs:
         run: mvn javafx:jlink
 
       - name: Package Application with jpackage
-        run: |
-          jpackage --type app-image `
-            --name TimerApp `
-            --app-version "${{ env.APP_VERSION }}" `
-            --module com.dpzstudio.timer/com.dpzstudio.timer.App `
-            --runtime-image target/TimerApp `
-            --dest target/dist
+        run: >
+          jpackage --type app-image
+          --name TimerApp
+          --app-version "${{ env.APP_VERSION }}"
+          --module com.dpzstudio.timer/com.dpzstudio.timer.App
+          --runtime-image target/TimerApp
+          --dest target/dist
 
       - name: Zip Portable Distribution
+        shell: powershell
         run: |
-          Compress-Archive -Path target/dist/TimerApp -DestinationPath "app-portable-${{ env.APP_VERSION }}.zip"
+          Compress-Archive -Path target/dist/TimerApp -DestinationPath "app-portable-${{ env.APP_VERSION }}.zip" -Force
 
-      - name: Create GitHub Release
+      - name: Create or Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.APP_VERSION }}
           name: Release v${{ env.APP_VERSION }}
           prerelease: true
           draft: false
+          make_latest: true
           files: app-portable-${{ env.APP_VERSION }}.zip
