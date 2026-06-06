@@ -79,7 +79,6 @@ public class SettingController implements Initializable {
     private void saveSetting() {
 
         try {
-
             AppConfig newConfig = new AppConfig();
 
             newConfig.setPomodoroMinute(
@@ -107,24 +106,21 @@ public class SettingController implements Initializable {
             );
 
             cfgService.saveCfg(newConfig);
-
             closeWin();
 
         } catch (Exception e) {
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
-
             alert.setHeaderText("Save Failed");
-
             alert.setContentText(e.getMessage());
-
             alert.showAndWait();
         }
     }
 
     private void cancelSetting() {
-        if (!hasChanges())
+        if (!hasChanges()) {
             closeWin();
+            return;
+        }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Discard changes?");

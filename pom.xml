@@ -1,29 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dpzstudio</groupId>
     <artifactId>simple-timer-app</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.6</version>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <javafx.version>13</javafx.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>13</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>13</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
-            <version>13</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>
@@ -31,6 +35,7 @@
             <version>3.42.0.0</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -41,6 +46,7 @@
                     <release>11</release>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -57,39 +63,35 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                     </execution>
                     <execution>
-                        <!-- Configuration for manual attach debugging -->
-                        <!-- Usage: mvn clean javafx:run@debug -->
                         <id>debug</id>
                         <configuration>
                             <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
+                                <option>
+                                    -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:8000</option>
                             </options>
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- Configuration for automatic IDE debugging -->
                         <id>ide-debug</id>
                         <configuration>
                             <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
+                                <option>
+                                    -agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</option>
                             </options>
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- Configuration for automatic IDE profiling -->
                         <id>ide-profile</id>
                         <configuration>
                             <options>
-				<option>${profiler.jvmargs.arg1}</option>
-				<option>${profiler.jvmargs.arg2}</option>
-				<option>${profiler.jvmargs.arg3}</option>
-				<option>${profiler.jvmargs.arg4}</option>
-				<option>${profiler.jvmargs.arg5}</option>
+                                <option>${profiler.jvmargs.arg1}</option>
+                                <option>${profiler.jvmargs.arg2}</option>
+                                <option>${profiler.jvmargs.arg3}</option>
+                                <option>${profiler.jvmargs.arg4}</option>
+                                <option>${profiler.jvmargs.arg5}</option>
                             </options>
                         </configuration>
                     </execution>

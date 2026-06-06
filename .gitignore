@@ -36,3 +36,6 @@ system/fxgl.bundle
 /.vscode
 nbactions.xml
 nbactions.xml
+docs/layout.fxml
+docs/codebase.java
+docs/layout.java
