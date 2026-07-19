@@ -1,5 +1,9 @@
 # Simple Timer App
 
+> **Archived** — This project is no longer maintained and will be archived.
+>
+> Development has moved to a new Flutter rebuild: [Fahriza253/pomodoro-app](https://github.com/Fahriza253/pomodoro-app.git).
+
 A lightweight, cross-platform desktop timer application built with JavaFX. This is a personal learning project for exploring Java desktop application development and Maven build workflows.
 
 ![Sample](sample.png)
